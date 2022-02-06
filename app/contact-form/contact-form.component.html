@@ -1,0 +1,94 @@
+
+<p>{{contactDetails | summary:10}}</p>
+<form #f="ngForm" (ngSubmit)="submit(f)">
+  <div ngModelGroup="contact">
+    <div class="form-group mb-3">
+      <label for="firstName">FirstName</label>
+      <input
+        type="text"
+        ngModel
+        #firstName="ngModel"
+        name="firstName"
+        id="firstName"
+        class="form-control"
+        (change)="log(firstName)"
+        required
+        minlength="3"
+        maxlength="30"
+        pattern="abhijeet"
+      />
+      <div
+        *ngIf="firstName.touched && firstName.invalid"
+        class="alert alert-danger"
+      >
+        <div *ngIf="firstName.errors?.required">FirstName is required</div>
+        <div *ngIf="firstName.errors?.minlength">
+          Minimum length is {{ firstName.errors?.minlength.requiredLength }}
+        </div>
+        <div *ngIf="firstName.errors?.maxlength">
+          Maximum length is {{ firstName.errors?.minlength.requiredLength }}
+        </div>
+        <div *ngIf="firstName.errors?.pattern">Pattern does not match</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="Comment">Comment</label>
+    <textarea
+      id="comment"
+      ngModel
+      #comment="ngModel"
+      name="comment"
+      class="form-control"
+      required
+      minlength="3"
+      maxlength="30"
+    ></textarea>
+    <div *ngIf="comment.touched && comment.invalid" class="alert alert-danger">
+      <div *ngIf="comment.errors?.required">comment is required</div>
+      <div *ngIf="comment.errors?.minlength">
+        Minimum length is {{ comment.errors?.minlength.requiredLength }}
+      </div>
+      <div *ngIf="comment.errors?.maxlength">
+        Maximum length is {{ comment.errors?.minlength.requiredLength }}
+      </div>
+    </div>
+  </div>
+
+  <div class="checkbox mb-3">
+    <label
+      ><input
+        type="checkbox"
+        ngModel
+        #isSubscribed="ngModel"
+        name="isSubscribed"
+      />
+      Subscribe to email</label
+    >
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="contactMethod">Contact Method</label>
+    <select
+      ngModel
+      name="contactMethod"
+      id="contactMethod"
+      class="form-control"
+    >
+    <option value="">Select</option>
+      <option *ngFor="let contact of contactMethods" [ngValue]="contact">
+        {{ contact.name }}
+      </option>
+    </select>
+  </div>
+
+  <br />
+
+  {{ f.value | json }}
+
+  <br />
+  <br />
+  <button class="btn btn-primary" [disabled]="f.invalid">Submit</button>
+</form>
+<hr />
